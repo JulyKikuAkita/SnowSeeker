@@ -8,31 +8,61 @@
 import SwiftUI
 
 /*
- SwiftUI restrains:
- Detail views always get a navigation bar whether you want it or not, so you need to use navigationBarHidden(true) to hide it.
- There’s no way of making the primary view stay visible even when there is more than enough space.
- You can’t make the primary view shown in landscape by default; SwiftUI always chooses the detail.
-
+ SwiftUI has two ways of creating alerts and sheets, 1. a binding to a Boolean that shows the alert or sheet when the Boolean becomes true. 2. The second option allows us to bind an optional to the alert or sheet
  */
+
+struct User: Identifiable {
+    var id = "Taylor Swift"
+}
+
 struct ContentView: View {
+    @State private var selecedUser1: User? = nil
+    @State private var selecedUser2: User? = nil
+    @State private var isShowingUser = false
+    @State private var isShowingUser3 = false
+    @State private var isShowingUser4 = false
+
     var body: some View {
-        NavigationView {
-            NavigationLink {
-                Text("New Secondary")
-            } label: {
-                Text("Hello World")
-            }
-            .navigationTitle("Primary")
+        VStack {
+            Text("Binding sheet using optional")
+                .padding()
+                .onTapGesture {
+                    selecedUser1 = User()
+                }
+                .sheet(item: $selecedUser1) { user in
+                    Text(user.id)
+                }
 
-            NavigationLink {
-                Text("New Third")
-            } label: {
-                Text("Hello World Secondary")
-            }
-            .navigationTitle("Secondary")
+            Text("Binding sheet using boolean")
+                .padding()
+                .onTapGesture {
+                    selecedUser2 = User() // not sure why the user is not instantiated
+                    isShowingUser = true
+                }
+                .sheet(isPresented: $isShowingUser) {
+                    Text(selecedUser2?.id ?? "User is null")
+                }
 
-            Text("Third View")
+            Text("Binding Alerts")
+                .padding()
+                .onTapGesture {
+                    selecedUser1 = User()
+                    isShowingUser3 = true
+                }
+                .alert("Button with user id", isPresented: $isShowingUser3, presenting: selecedUser1) { user in
+                    Button(user.id) { }
+                }
+
+            Text("Binding Alerts with OK button")
+                .padding()
+                .onTapGesture {
+                    isShowingUser4 = true
+                }
+                .alert("Ok Button", isPresented: $isShowingUser4) {
+                    Button("OK") {}
+                }
         }
+
     }
 }
 
