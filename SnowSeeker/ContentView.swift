@@ -16,53 +16,59 @@ struct User: Identifiable {
 }
 
 struct ContentView: View {
-    @State private var selecedUser1: User? = nil
-    @State private var selecedUser2: User? = nil
-    @State private var isShowingUser = false
-    @State private var isShowingUser3 = false
-    @State private var isShowingUser4 = false
+    @Environment(\.horizontalSizeClass) var sizeClass  // “compact” and “regular”
+    @State private var layoutVertically = false
 
     var body: some View {
         VStack {
-            Text("Binding sheet using optional")
-                .padding()
-                .onTapGesture {
-                    selecedUser1 = User()
+            Group {
+                if layoutVertically {
+                    VStack {
+                        UserView()
+                    }
+                } else {
+                    HStack {
+                        UserView()
+                    }
                 }
-                .sheet(item: $selecedUser1) { user in
-                    Text(user.id)
-                }
+            }
+            .onTapGesture {
+                layoutVertically.toggle()
+            }
 
-            Text("Binding sheet using boolean")
+            Text("Use SizeClass:")
                 .padding()
-                .onTapGesture {
-                    selecedUser2 = User() // not sure why the user is not instantiated
-                    isShowingUser = true
-                }
-                .sheet(isPresented: $isShowingUser) {
-                    Text(selecedUser2?.id ?? "User is null")
-                }
 
-            Text("Binding Alerts")
-                .padding()
-                .onTapGesture {
-                    selecedUser1 = User()
-                    isShowingUser3 = true
-                }
-                .alert("Button with user id", isPresented: $isShowingUser3, presenting: selecedUser1) { user in
-                    Button(user.id) { }
-                }
 
-            Text("Binding Alerts with OK button")
-                .padding()
-                .onTapGesture {
-                    isShowingUser4 = true
+            if sizeClass == .compact {
+                VStack {
+                    UserView()
                 }
-                .alert("Ok Button", isPresented: $isShowingUser4) {
-                    Button("OK") {}
+            } else {
+                HStack {
+                    UserView()
                 }
+            }
+
+            // syntax sugar
+            // where you have only one view inside a stack and it doesn’t take any parameters, you can pass the view’s initializer directly to the VStack to make your code shorter
+//            if sizeClass == .compact {
+//                VStack(content: UserView.init)
+//            } else {
+//                HStack(content: UserView.init)
+//            }
         }
+    }
+}
 
+struct UserView: View {
+    var body: some View {
+        Group {
+            Text("Name: Paul")
+            Text("Country: England")
+            Text("Pets: Luna and Arya")
+        }
+        .font(.title)
     }
 }
 
