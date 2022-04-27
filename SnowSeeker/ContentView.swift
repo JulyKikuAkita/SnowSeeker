@@ -12,7 +12,7 @@ import SwiftUI
  */
 
 struct User: Identifiable {
-    var id = "Taylor Swift"
+    var id = UUID().uuidString
 }
 
 struct ContentView: View {
@@ -36,7 +36,7 @@ struct ContentView: View {
             Text("Binding sheet using boolean")
                 .padding()
                 .onTapGesture {
-                    selecedUser2 = User() // not sure why the user is not instantiated
+                    selecedUser2 = User() // 2nd tap user got initiated
                     isShowingUser = true
                 }
                 .sheet(isPresented: $isShowingUser) {
