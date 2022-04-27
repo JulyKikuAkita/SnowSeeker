@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+struct WelcomeView: View {
+    var body: some View {
+        VStack {
+            Text("Welcome to SnowSeeker!")
+                .font(.largeTitle)
+
+            Text("Please select a resort from left-hand menu; swipe from the left edge to show it.")
+                .foregroundColor(.secondary)
+        }
+    }
+}
+
 struct ContentView: View {
     let resorts: [Resort] = Bundle.main.decode("resorts.json")
 
@@ -37,6 +49,22 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Resorts")
+//            .phoneOnlyStackNavigationView() //enabel to force iphone13 max to use stack navigation style
+
+            WelcomeView()
+
+        }
+    }
+}
+
+// Stop iPhones from using the slide over approach, try on iPhone 13 max / ipad
+// Need to use the @ViewBuilder attribute here because the two returned view types are different.
+extension View {
+    @ViewBuilder func phoneOnlyStackNavigationView() -> some View {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            self.navigationViewStyle(.stack)
+        } else {
+            self
         }
     }
 }
