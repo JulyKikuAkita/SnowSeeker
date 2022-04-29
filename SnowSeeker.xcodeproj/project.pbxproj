@@ -51,7 +51,6 @@
 		CAE8D606281520C5004DB640 = {
 			isa = PBXGroup;
 			children = (
-				CAA199B7281C74B10012DDFD /* Favorites.swift */,
 				CAE8D611281520C5004DB640 /* SnowSeeker */,
 				CAE8D610281520C5004DB640 /* Products */,
 			);
@@ -68,6 +67,7 @@
 		CAE8D611281520C5004DB640 /* SnowSeeker */ = {
 			isa = PBXGroup;
 			children = (
+				CAA199B7281C74B10012DDFD /* Favorites.swift */,
 				CAE8D612281520C5004DB640 /* SnowSeekerApp.swift */,
 				CAE8D614281520C5004DB640 /* ContentView.swift */,
 				CAA199B1281A64410012DDFD /* SkiDetailsView.swift */,
