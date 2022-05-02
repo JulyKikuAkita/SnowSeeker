@@ -37,11 +37,13 @@ struct ContentView: View {
         NavigationView {
             VStack {
                 Section("Sorted by") {
-                    Picker("Sort key", selection: $sortOrder) {
+                    Picker("", selection: $sortOrder) {
                         ForEach(OrderBy.allCases, id: \.self) {
                             Text($0.rawValue)
                         }
                     }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .labelsHidden()
                 }
                 List(sortedResorts) { resort in
                     NavigationLink {
